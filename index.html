@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Photo Resizer & Compressor</title>
+  <meta name="description" content="Bulk image resizer and compressor. Resize up to 50 photos to 130×150 px and compress them to 20 KB or less." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="app">
+    <header class="hero">
+      <div class="brand-mark">K</div>
+      <div>
+        <p class="eyebrow">ICT UTILITY</p>
+        <h1>Photo Resizer</h1>
+        <p class="subtitle">Resize and compress up to 50 photos without uploading them anywhere.</p>
+      </div>
+    </header>
+
+    <section class="card settings-card">
+      <div class="setting">
+        <span class="label">Width</span>
+        <strong>130 px</strong>
+      </div>
+      <div class="setting">
+        <span class="label">Height</span>
+        <strong>150 px</strong>
+      </div>
+      <div class="setting">
+        <span class="label">Maximum size</span>
+        <strong>20 KB</strong>
+      </div>
+      <div class="setting">
+        <span class="label">Maximum files</span>
+        <strong>50</strong>
+      </div>
+    </section>
+
+    <section class="card uploader-card">
+      <input id="fileInput" type="file" accept="image/*" multiple hidden />
+      <button class="dropzone" id="dropzone" type="button">
+        <span class="upload-icon">↑</span>
+        <span class="drop-title">Drop photos here</span>
+        <span class="drop-subtitle">or click to choose up to 50 images</span>
+      </button>
+      <div class="privacy">
+        <span>🔒</span>
+        <span>Photos are processed locally in your browser. Nothing is uploaded.</span>
+      </div>
+    </section>
+
+    <section id="queueSection" class="card queue-card hidden">
+      <div class="queue-head">
+        <div>
+          <h2>Selected photos</h2>
+          <p id="queueSummary">0 photos</p>
+        </div>
+        <div class="actions">
+          <button id="clearBtn" class="btn secondary" type="button">Clear</button>
+          <button id="processBtn" class="btn primary" type="button">Process photos</button>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>File</th>
+              <th>Original</th>
+              <th>Output</th>
+              <th>Status</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="fileTable"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="resultsSection" class="card results-card hidden">
+      <div class="results-head">
+        <div>
+          <h2>Processed photos</h2>
+          <p id="resultsSummary"></p>
+        </div>
+        <button id="downloadAllBtn" class="btn primary" type="button">Download all ZIP</button>
+      </div>
+      <div id="resultsList" class="results-list"></div>
+    </section>
+
+    <p class="footer-note">130 × 150 px · ≤ 20 KB · Original filenames retained</p>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

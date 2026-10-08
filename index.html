@@ -6,69 +6,144 @@
 
     <title>Bulk Image Resizer | ICT Utilities</title>
 
-    <meta name="description" content="Free bulk image resizer by Koitaleel Samoei University College ICT Utilities. Resize up to 100 images directly in your browser.">
+    <meta
+        name="description"
+        content="Koitaleel Samoei University College ICT Utilities - Bulk Image Resizer"
+    >
 
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <!-- HEADER -->
-    <header class="site-header">
-        <div class="header-inner">
+<!-- =========================================
+     TOP NAVIGATION
+========================================= -->
 
-            <div class="brand">
-                <div class="brand-mark">KSU</div>
+<header class="topbar">
 
-                <div class="brand-text">
-                    <strong>Koitaleel Samoei University College</strong>
-                    <span>ICT Utilities</span>
-                </div>
+    <div class="topbar-inner">
+
+        <a href="#" class="brand">
+
+            <div class="brand-logo">
+                KSU
             </div>
 
-            <div class="utility-label">
-                IMAGE RESIZER
+            <div class="brand-copy">
+                <strong>Koitaleel Samoei</strong>
+                <span>University College</span>
+            </div>
+
+        </a>
+
+
+        <div class="utility-brand">
+
+            <span class="utility-dot"></span>
+
+            <div>
+                <small>ICT</small>
+                <strong>UTILITIES</strong>
             </div>
 
         </div>
-    </header>
+
+    </div>
+
+</header>
 
 
-    <!-- MAIN -->
-    <main class="container">
+<!-- =========================================
+     MAIN
+========================================= -->
 
-        <section class="hero">
+<main>
 
-            <div class="hero-badge">
-                ICT UTILITIES
+    <!-- HERO -->
+
+    <section class="hero">
+
+        <div class="hero-glow hero-glow-one"></div>
+        <div class="hero-glow hero-glow-two"></div>
+
+        <div class="hero-content">
+
+            <div class="eyebrow">
+                <span></span>
+                KOITALEEL SAMOEI UNIVERSITY COLLEGE
             </div>
 
-            <h1>Bulk Image Resizer</h1>
+            <h1>
+                Bulk Image
+                <span>Resizer</span>
+            </h1>
 
             <p>
-                Resize multiple images quickly and easily.
-                Everything happens directly in your browser.
+                Resize up to <strong>100 images</strong> quickly and
+                easily. Your images are processed directly in your
+                browser.
             </p>
 
-        </section>
+            <div class="hero-features">
 
-
-        <!-- UPLOAD AREA -->
-        <section class="tool-card">
-
-            <div class="upload-area" id="dropArea">
-
-                <div class="upload-icon">
-                    ↑
+                <div>
+                    <span>✓</span>
+                    Browser based
                 </div>
 
-                <h2>Drop your images here</h2>
+                <div>
+                    <span>✓</span>
+                    Up to 100 images
+                </div>
+
+                <div>
+                    <span>✓</span>
+                    No uploads
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- TOOL -->
+
+    <section class="tool-wrapper">
+
+        <div class="tool-card">
+
+
+            <!-- UPLOAD -->
+
+            <div
+                class="upload-zone"
+                id="dropArea"
+            >
+
+                <div class="upload-orb">
+
+                    <div class="upload-arrow">
+                        ↑
+                    </div>
+
+                </div>
+
+                <h2>
+                    Drop your images here
+                </h2>
 
                 <p>
-                    or choose images from your computer
+                    Drag and drop your photos here, or choose
+                    files from your computer.
                 </p>
 
-                <label for="fileInput" class="browse-button">
+                <label
+                    for="fileInput"
+                    class="primary-button"
+                >
                     Choose Images
                 </label>
 
@@ -80,143 +155,349 @@
                     hidden
                 >
 
-                <div class="upload-limit">
-                    Maximum <strong>100 images</strong>
-                    · JPG · PNG · WebP
+                <div class="upload-meta">
+
+                    <span>JPG</span>
+                    <span>PNG</span>
+                    <span>WEBP</span>
+                    <b>Maximum 100 images</b>
+
                 </div>
 
             </div>
 
 
             <!-- SETTINGS -->
-            <div class="settings" id="settings">
 
-                <div class="settings-title">
-                    Resize Settings
+            <div
+                class="settings-panel"
+                id="settings"
+            >
+
+                <div class="panel-heading">
+
+                    <div>
+
+                        <span class="section-kicker">
+                            SETTINGS
+                        </span>
+
+                        <h3>
+                            Resize your images
+                        </h3>
+
+                    </div>
+
+                    <div
+                        class="image-counter"
+                        id="imageCount"
+                    >
+                        0 / 100
+                    </div>
+
                 </div>
 
-                <div class="settings-grid">
 
-                    <div class="field">
-                        <label for="width">
-                            Width
-                        </label>
+                <!-- DIMENSIONS -->
 
-                        <input
-                            type="number"
-                            id="width"
-                            placeholder="e.g. 1200"
-                            min="1"
-                        >
+                <div class="settings-section">
 
-                        <span>px</span>
+                    <div class="settings-label">
+                        Dimensions
+                    </div>
+
+                    <div class="dimension-grid">
+
+                        <div class="input-group">
+
+                            <label for="width">
+                                Width
+                            </label>
+
+                            <div class="input-box">
+
+                                <input
+                                    type="number"
+                                    id="width"
+                                    placeholder="130"
+                                    min="1"
+                                >
+
+                                <span>px</span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="dimension-symbol">
+                            ×
+                        </div>
+
+
+                        <div class="input-group">
+
+                            <label for="height">
+                                Height
+                            </label>
+
+                            <div class="input-box">
+
+                                <input
+                                    type="number"
+                                    id="height"
+                                    placeholder="150"
+                                    min="1"
+                                >
+
+                                <span>px</span>
+
+                            </div>
+
+                        </div>
+
                     </div>
 
 
-                    <div class="field">
-                        <label for="height">
-                            Height
-                        </label>
+                    <!-- RESIZE MODE -->
 
-                        <input
-                            type="number"
-                            id="height"
-                            placeholder="e.g. 800"
-                            min="1"
-                        >
+                    <div class="resize-mode">
 
-                        <span>px</span>
+                        <div class="settings-label">
+                            Resize mode
+                        </div>
+
+                        <div class="mode-options">
+
+                            <label class="mode-card">
+
+                                <input
+                                    type="radio"
+                                    name="resizeMode"
+                                    value="fit"
+                                    checked
+                                >
+
+                                <span class="mode-radio"></span>
+
+                                <span>
+                                    <strong>Fit</strong>
+                                    <small>
+                                        Keep proportions
+                                    </small>
+                                </span>
+
+                            </label>
+
+
+                            <label class="mode-card">
+
+                                <input
+                                    type="radio"
+                                    name="resizeMode"
+                                    value="exact"
+                                >
+
+                                <span class="mode-radio"></span>
+
+                                <span>
+                                    <strong>Exact</strong>
+                                    <small>
+                                        Use exact dimensions
+                                    </small>
+                                </span>
+
+                            </label>
+
+
+                            <label class="mode-card">
+
+                                <input
+                                    type="radio"
+                                    name="resizeMode"
+                                    value="width"
+                                >
+
+                                <span class="mode-radio"></span>
+
+                                <span>
+                                    <strong>Width</strong>
+                                    <small>
+                                        Set width only
+                                    </small>
+                                </span>
+
+                            </label>
+
+
+                            <label class="mode-card">
+
+                                <input
+                                    type="radio"
+                                    name="resizeMode"
+                                    value="height"
+                                >
+
+                                <span class="mode-radio"></span>
+
+                                <span>
+                                    <strong>Height</strong>
+                                    <small>
+                                        Set height only
+                                    </small>
+                                </span>
+
+                            </label>
+
+                        </div>
+
                     </div>
 
+                </div>
 
-                    <div class="field">
+
+                <!-- OTHER SETTINGS -->
+
+                <div class="secondary-settings">
+
+                    <div class="setting-field">
+
                         <label for="quality">
-                            Quality
+                            Image Quality
                         </label>
 
-                        <select id="quality">
-                            <option value="1">100%</option>
-                            <option value="0.9" selected>90%</option>
-                            <option value="0.8">80%</option>
-                            <option value="0.7">70%</option>
-                            <option value="0.6">60%</option>
-                        </select>
+                        <div class="select-wrapper">
+
+                            <select id="quality">
+
+                                <option value="1">
+                                    100% — Maximum
+                                </option>
+
+                                <option
+                                    value="0.9"
+                                    selected
+                                >
+                                    90% — High
+                                </option>
+
+                                <option value="0.8">
+                                    80% — Good
+                                </option>
+
+                                <option value="0.7">
+                                    70% — Smaller
+                                </option>
+
+                                <option value="0.6">
+                                    60% — Compact
+                                </option>
+
+                            </select>
+
+                        </div>
+
                     </div>
 
 
-                    <div class="field">
+                    <div class="setting-field">
+
                         <label for="format">
                             Output Format
                         </label>
 
-                        <select id="format">
-                            <option value="original">
-                                Same as original
-                            </option>
+                        <div class="select-wrapper">
 
-                            <option value="image/jpeg">
-                                JPG
-                            </option>
+                            <select id="format">
 
-                            <option value="image/png">
-                                PNG
-                            </option>
+                                <option value="original">
+                                    Same as original
+                                </option>
 
-                            <option value="image/webp">
-                                WebP
-                            </option>
-                        </select>
+                                <option value="image/jpeg">
+                                    JPG
+                                </option>
+
+                                <option value="image/png">
+                                    PNG
+                                </option>
+
+                                <option value="image/webp">
+                                    WebP
+                                </option>
+
+                            </select>
+
+                        </div>
+
                     </div>
 
                 </div>
 
 
-                <!-- KEEP RATIO -->
-                <label class="checkbox-row">
+                <!-- RESIZE BUTTON -->
 
-                    <input
-                        type="checkbox"
-                        id="keepRatio"
-                        checked
-                    >
-
-                    <span>
-                        Keep original aspect ratio
-                    </span>
-
-                </label>
-
-
-                <!-- ACTION BUTTON -->
                 <button
                     id="resizeButton"
-                    class="resize-button"
+                    class="resize-main-button"
                     disabled
                 >
-                    Resize Images
+
+                    <span>
+                        Resize Images
+                    </span>
+
+                    <span class="button-arrow">
+                        →
+                    </span>
+
                 </button>
+
+
+                <div class="privacy-note">
+
+                    <span>🔒</span>
+
+                    <span>
+                        Your images never leave your device.
+                        Processing happens locally in your browser.
+                    </span>
+
+                </div>
 
             </div>
 
 
-            <!-- IMAGE LIST -->
-            <div class="image-section" id="imageSection">
+            <!-- SELECTED IMAGES -->
 
-                <div class="image-section-header">
+            <div
+                class="image-section"
+                id="imageSection"
+            >
+
+                <div class="section-header">
 
                     <div>
-                        <strong>Selected Images</strong>
-                        <span id="imageCount">0 / 100</span>
+
+                        <span class="section-kicker">
+                            YOUR FILES
+                        </span>
+
+                        <h3>
+                            Selected images
+                        </h3>
+
                     </div>
 
                     <button
                         id="clearButton"
                         class="clear-button"
                     >
-                        Clear All
+                        Clear all
                     </button>
 
                 </div>
+
 
                 <div
                     class="image-list"
@@ -227,16 +508,17 @@
 
 
             <!-- PROGRESS -->
+
             <div
                 class="progress-section"
                 id="progressSection"
             >
 
-                <div class="progress-header">
+                <div class="progress-top">
 
-                    <span id="progressText">
-                        Processing...
-                    </span>
+                    <strong id="progressText">
+                        Processing images...
+                    </strong>
 
                     <span id="progressPercent">
                         0%
@@ -244,27 +526,36 @@
 
                 </div>
 
-                <div class="progress-bar">
+                <div class="progress-track">
+
                     <div
                         class="progress-fill"
                         id="progressFill"
                     ></div>
+
                 </div>
 
             </div>
 
 
             <!-- RESULTS -->
+
             <div
-                class="results"
+                class="results-section"
                 id="results"
             >
 
-                <div class="success-icon">
+                <div class="success-circle">
                     ✓
                 </div>
 
-                <h3>Images resized successfully</h3>
+                <span class="section-kicker">
+                    COMPLETE
+                </span>
+
+                <h3>
+                    Your images are ready
+                </h3>
 
                 <p id="resultText"></p>
 
@@ -273,78 +564,123 @@
                     class="download-button"
                 >
                     Download All
+                    <span>↓</span>
                 </button>
 
             </div>
 
-        </section>
+        </div>
+
+    </section>
 
 
-        <!-- INFO -->
-        <section class="info-section">
+    <!-- FEATURES -->
 
-            <div class="info-card">
-                <div class="info-number">01</div>
+    <section class="features">
 
-                <div>
-                    <h3>Select Images</h3>
-                    <p>
-                        Upload up to 100 images at once.
-                    </p>
-                </div>
+        <div class="feature">
+
+            <div class="feature-icon">
+                ⚡
             </div>
-
-
-            <div class="info-card">
-                <div class="info-number">02</div>
-
-                <div>
-                    <h3>Choose Size</h3>
-                    <p>
-                        Set your preferred image dimensions.
-                    </p>
-                </div>
-            </div>
-
-
-            <div class="info-card">
-                <div class="info-number">03</div>
-
-                <div>
-                    <h3>Resize & Download</h3>
-                    <p>
-                        Process your images and download them.
-                    </p>
-                </div>
-            </div>
-
-        </section>
-
-    </main>
-
-
-    <!-- FOOTER -->
-    <footer class="site-footer">
-
-        <div class="footer-inner">
 
             <div>
-                <strong>Koitaleel Samoei University College</strong>
-                <p>ICT Utilities</p>
-            </div>
-
-            <div class="footer-right">
-                <span>Bulk Image Resizer</span>
-                <span>•</span>
-                <span>100 Images Maximum</span>
+                <h3>Fast</h3>
+                <p>
+                    Process multiple images directly in your browser.
+                </p>
             </div>
 
         </div>
 
-    </footer>
+
+        <div class="feature">
+
+            <div class="feature-icon">
+                🔒
+            </div>
+
+            <div>
+                <h3>Private</h3>
+                <p>
+                    Images remain on your device during processing.
+                </p>
+            </div>
+
+        </div>
 
 
-    <script src="script.js"></script>
+        <div class="feature">
+
+            <div class="feature-icon">
+                ◉
+            </div>
+
+            <div>
+                <h3>Simple</h3>
+                <p>
+                    No account, installation or complicated setup.
+                </p>
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- =========================================
+     FOOTER
+========================================= -->
+
+<footer>
+
+    <div class="footer-inner">
+
+        <div class="footer-brand">
+
+            <div class="footer-logo">
+                KSU
+            </div>
+
+            <div>
+
+                <strong>
+                    Koitaleel Samoei University College
+                </strong>
+
+                <span>
+                    ICT Utilities
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="footer-copy">
+
+            <span>
+                Bulk Image Resizer
+            </span>
+
+            <span>
+                •
+            </span>
+
+            <span>
+                © 2026
+            </span>
+
+        </div>
+
+    </div>
+
+</footer>
+
+
+<script src="script.js"></script>
 
 </body>
 </html>

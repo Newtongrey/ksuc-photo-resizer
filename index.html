@@ -1,97 +1,350 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Photo Resizer & Compressor</title>
-  <meta name="description" content="Bulk image resizer and compressor. Resize up to 50 photos to 130×150 px and compress them to 20 KB or less." />
-  <link rel="stylesheet" href="styles.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Bulk Image Resizer | ICT Utilities</title>
+
+    <meta name="description" content="Free bulk image resizer by Koitaleel Samoei University College ICT Utilities. Resize up to 100 images directly in your browser.">
+
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-  <main class="app">
-    <header class="hero">
-      <div class="brand-mark">K</div>
-      <div>
-        <p class="eyebrow">ICT UTILITY</p>
-        <h1>Photo Resizer</h1>
-        <p class="subtitle">Resize and compress up to 50 photos without uploading them anywhere.</p>
-      </div>
+
+    <!-- HEADER -->
+    <header class="site-header">
+        <div class="header-inner">
+
+            <div class="brand">
+                <div class="brand-mark">KSU</div>
+
+                <div class="brand-text">
+                    <strong>Koitaleel Samoei University College</strong>
+                    <span>ICT Utilities</span>
+                </div>
+            </div>
+
+            <div class="utility-label">
+                IMAGE RESIZER
+            </div>
+
+        </div>
     </header>
 
-    <section class="card settings-card">
-      <div class="setting">
-        <span class="label">Width</span>
-        <strong>130 px</strong>
-      </div>
-      <div class="setting">
-        <span class="label">Height</span>
-        <strong>150 px</strong>
-      </div>
-      <div class="setting">
-        <span class="label">Maximum size</span>
-        <strong>20 KB</strong>
-      </div>
-      <div class="setting">
-        <span class="label">Maximum files</span>
-        <strong>50</strong>
-      </div>
-    </section>
 
-    <section class="card uploader-card">
-      <input id="fileInput" type="file" accept="image/*" multiple hidden />
-      <button class="dropzone" id="dropzone" type="button">
-        <span class="upload-icon">↑</span>
-        <span class="drop-title">Drop photos here</span>
-        <span class="drop-subtitle">or click to choose up to 50 images</span>
-      </button>
-      <div class="privacy">
-        <span>🔒</span>
-        <span>Photos are processed locally in your browser. Nothing is uploaded.</span>
-      </div>
-    </section>
+    <!-- MAIN -->
+    <main class="container">
 
-    <section id="queueSection" class="card queue-card hidden">
-      <div class="queue-head">
-        <div>
-          <h2>Selected photos</h2>
-          <p id="queueSummary">0 photos</p>
+        <section class="hero">
+
+            <div class="hero-badge">
+                ICT UTILITIES
+            </div>
+
+            <h1>Bulk Image Resizer</h1>
+
+            <p>
+                Resize multiple images quickly and easily.
+                Everything happens directly in your browser.
+            </p>
+
+        </section>
+
+
+        <!-- UPLOAD AREA -->
+        <section class="tool-card">
+
+            <div class="upload-area" id="dropArea">
+
+                <div class="upload-icon">
+                    ↑
+                </div>
+
+                <h2>Drop your images here</h2>
+
+                <p>
+                    or choose images from your computer
+                </p>
+
+                <label for="fileInput" class="browse-button">
+                    Choose Images
+                </label>
+
+                <input
+                    type="file"
+                    id="fileInput"
+                    accept="image/jpeg,image/png,image/webp"
+                    multiple
+                    hidden
+                >
+
+                <div class="upload-limit">
+                    Maximum <strong>100 images</strong>
+                    · JPG · PNG · WebP
+                </div>
+
+            </div>
+
+
+            <!-- SETTINGS -->
+            <div class="settings" id="settings">
+
+                <div class="settings-title">
+                    Resize Settings
+                </div>
+
+                <div class="settings-grid">
+
+                    <div class="field">
+                        <label for="width">
+                            Width
+                        </label>
+
+                        <input
+                            type="number"
+                            id="width"
+                            placeholder="e.g. 1200"
+                            min="1"
+                        >
+
+                        <span>px</span>
+                    </div>
+
+
+                    <div class="field">
+                        <label for="height">
+                            Height
+                        </label>
+
+                        <input
+                            type="number"
+                            id="height"
+                            placeholder="e.g. 800"
+                            min="1"
+                        >
+
+                        <span>px</span>
+                    </div>
+
+
+                    <div class="field">
+                        <label for="quality">
+                            Quality
+                        </label>
+
+                        <select id="quality">
+                            <option value="1">100%</option>
+                            <option value="0.9" selected>90%</option>
+                            <option value="0.8">80%</option>
+                            <option value="0.7">70%</option>
+                            <option value="0.6">60%</option>
+                        </select>
+                    </div>
+
+
+                    <div class="field">
+                        <label for="format">
+                            Output Format
+                        </label>
+
+                        <select id="format">
+                            <option value="original">
+                                Same as original
+                            </option>
+
+                            <option value="image/jpeg">
+                                JPG
+                            </option>
+
+                            <option value="image/png">
+                                PNG
+                            </option>
+
+                            <option value="image/webp">
+                                WebP
+                            </option>
+                        </select>
+                    </div>
+
+                </div>
+
+
+                <!-- KEEP RATIO -->
+                <label class="checkbox-row">
+
+                    <input
+                        type="checkbox"
+                        id="keepRatio"
+                        checked
+                    >
+
+                    <span>
+                        Keep original aspect ratio
+                    </span>
+
+                </label>
+
+
+                <!-- ACTION BUTTON -->
+                <button
+                    id="resizeButton"
+                    class="resize-button"
+                    disabled
+                >
+                    Resize Images
+                </button>
+
+            </div>
+
+
+            <!-- IMAGE LIST -->
+            <div class="image-section" id="imageSection">
+
+                <div class="image-section-header">
+
+                    <div>
+                        <strong>Selected Images</strong>
+                        <span id="imageCount">0 / 100</span>
+                    </div>
+
+                    <button
+                        id="clearButton"
+                        class="clear-button"
+                    >
+                        Clear All
+                    </button>
+
+                </div>
+
+                <div
+                    class="image-list"
+                    id="imageList"
+                ></div>
+
+            </div>
+
+
+            <!-- PROGRESS -->
+            <div
+                class="progress-section"
+                id="progressSection"
+            >
+
+                <div class="progress-header">
+
+                    <span id="progressText">
+                        Processing...
+                    </span>
+
+                    <span id="progressPercent">
+                        0%
+                    </span>
+
+                </div>
+
+                <div class="progress-bar">
+                    <div
+                        class="progress-fill"
+                        id="progressFill"
+                    ></div>
+                </div>
+
+            </div>
+
+
+            <!-- RESULTS -->
+            <div
+                class="results"
+                id="results"
+            >
+
+                <div class="success-icon">
+                    ✓
+                </div>
+
+                <h3>Images resized successfully</h3>
+
+                <p id="resultText"></p>
+
+                <button
+                    id="downloadAllButton"
+                    class="download-button"
+                >
+                    Download All
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- INFO -->
+        <section class="info-section">
+
+            <div class="info-card">
+                <div class="info-number">01</div>
+
+                <div>
+                    <h3>Select Images</h3>
+                    <p>
+                        Upload up to 100 images at once.
+                    </p>
+                </div>
+            </div>
+
+
+            <div class="info-card">
+                <div class="info-number">02</div>
+
+                <div>
+                    <h3>Choose Size</h3>
+                    <p>
+                        Set your preferred image dimensions.
+                    </p>
+                </div>
+            </div>
+
+
+            <div class="info-card">
+                <div class="info-number">03</div>
+
+                <div>
+                    <h3>Resize & Download</h3>
+                    <p>
+                        Process your images and download them.
+                    </p>
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+
+        <div class="footer-inner">
+
+            <div>
+                <strong>Koitaleel Samoei University College</strong>
+                <p>ICT Utilities</p>
+            </div>
+
+            <div class="footer-right">
+                <span>Bulk Image Resizer</span>
+                <span>•</span>
+                <span>100 Images Maximum</span>
+            </div>
+
         </div>
-        <div class="actions">
-          <button id="clearBtn" class="btn secondary" type="button">Clear</button>
-          <button id="processBtn" class="btn primary" type="button">Process photos</button>
-        </div>
-      </div>
 
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>File</th>
-              <th>Original</th>
-              <th>Output</th>
-              <th>Status</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody id="fileTable"></tbody>
-        </table>
-      </div>
-    </section>
+    </footer>
 
-    <section id="resultsSection" class="card results-card hidden">
-      <div class="results-head">
-        <div>
-          <h2>Processed photos</h2>
-          <p id="resultsSummary"></p>
-        </div>
-        <button id="downloadAllBtn" class="btn primary" type="button">Download all ZIP</button>
-      </div>
-      <div id="resultsList" class="results-list"></div>
-    </section>
 
-    <p class="footer-note">130 × 150 px · ≤ 20 KB · Original filenames retained</p>
-  </main>
+    <script src="script.js"></script>
 
-  <script src="app.js"></script>
 </body>
 </html>

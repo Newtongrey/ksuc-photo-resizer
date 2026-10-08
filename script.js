@@ -164,6 +164,7 @@ function addFiles(files) {
         );
 
         return;
+
     }
 
 
@@ -179,6 +180,7 @@ function addFiles(files) {
         );
 
         return;
+
     }
 
 
@@ -187,6 +189,18 @@ function addFiles(files) {
             0,
             available
         );
+
+
+    if (
+        validFiles.length >
+        filesToAdd.length
+    ) {
+
+        alert(
+            `Only ${available} more image(s) can be added. Maximum is ${MAX_IMAGES}.`
+        );
+
+    }
 
 
     selectedFiles =
@@ -210,34 +224,59 @@ function updateImageList() {
 
 
     selectedFiles.forEach(
-        (file, index) => {
+        (file) => {
 
             const item =
-                document.createElement("div");
+                document.createElement(
+                    "div"
+                );
 
             item.className =
                 "image-item";
 
 
             const preview =
-                document.createElement("img");
+                document.createElement(
+                    "img"
+                );
 
             preview.className =
                 "image-preview";
 
+
+            const objectUrl =
+                URL.createObjectURL(
+                    file
+                );
+
+
             preview.src =
-                URL.createObjectURL(file);
+                objectUrl;
+
+
+            preview.onload =
+                function () {
+
+                    URL.revokeObjectURL(
+                        objectUrl
+                    );
+
+                };
 
 
             const info =
-                document.createElement("div");
+                document.createElement(
+                    "div"
+                );
 
             info.className =
                 "image-info";
 
 
             const name =
-                document.createElement("div");
+                document.createElement(
+                    "div"
+                );
 
             name.className =
                 "image-name";
@@ -247,17 +286,23 @@ function updateImageList() {
 
 
             const size =
-                document.createElement("div");
+                document.createElement(
+                    "div"
+                );
 
             size.className =
                 "image-size";
 
             size.textContent =
-                formatFileSize(file.size);
+                formatFileSize(
+                    file.size
+                );
 
 
             const status =
-                document.createElement("span");
+                document.createElement(
+                    "span"
+                );
 
             status.className =
                 "image-status";
@@ -266,19 +311,31 @@ function updateImageList() {
                 "READY";
 
 
-            info.appendChild(name);
+            info.appendChild(
+                name
+            );
 
-            info.appendChild(size);
-
-
-            item.appendChild(preview);
-
-            item.appendChild(info);
-
-            item.appendChild(status);
+            info.appendChild(
+                size
+            );
 
 
-            imageList.appendChild(item);
+            item.appendChild(
+                preview
+            );
+
+            item.appendChild(
+                info
+            );
+
+            item.appendChild(
+                status
+            );
+
+
+            imageList.appendChild(
+                item
+            );
 
         }
     );
@@ -288,7 +345,9 @@ function updateImageList() {
         `${selectedFiles.length} / ${MAX_IMAGES}`;
 
 
-    if (selectedFiles.length > 0) {
+    if (
+        selectedFiles.length > 0
+    ) {
 
         imageSection.style.display =
             "block";
@@ -352,6 +411,7 @@ function getResizeMode() {
             'input[name="resizeMode"]:checked'
         );
 
+
     return selected
         ? selected.value
         : "fit";
@@ -372,6 +432,7 @@ resizeButton.addEventListener(
         ) {
 
             return;
+
         }
 
 
@@ -391,7 +452,10 @@ resizeButton.addEventListener(
             );
 
 
-        /* VALIDATION */
+        /* =================================
+           VALIDATION
+        ================================= */
+
 
         if (
             mode === "fit" &&
@@ -404,6 +468,7 @@ resizeButton.addEventListener(
             );
 
             return;
+
         }
 
 
@@ -417,6 +482,7 @@ resizeButton.addEventListener(
             );
 
             return;
+
         }
 
 
@@ -430,6 +496,7 @@ resizeButton.addEventListener(
             );
 
             return;
+
         }
 
 
@@ -443,6 +510,7 @@ resizeButton.addEventListener(
             );
 
             return;
+
         }
 
 
@@ -450,6 +518,10 @@ resizeButton.addEventListener(
 
 
         resizeButton.disabled =
+            true;
+
+
+        downloadAllButton.disabled =
             true;
 
 
@@ -467,6 +539,15 @@ resizeButton.addEventListener(
 
         progressPercent.textContent =
             "0%";
+
+
+        progressText.textContent =
+            "Starting...";
+
+
+        /* =================================
+           PROCESS EACH IMAGE
+        ================================= */
 
 
         for (
@@ -506,8 +587,10 @@ resizeButton.addEventListener(
 
             const percent =
                 Math.round(
-                    ((i + 1) /
-                    selectedFiles.length) *
+                    (
+                        (i + 1) /
+                        selectedFiles.length
+                    ) *
                     100
                 );
 
@@ -526,12 +609,35 @@ resizeButton.addEventListener(
         }
 
 
+        /* =================================
+           PROCESSING COMPLETE
+        ================================= */
+
+
+        progressFill.style.width =
+            "100%";
+
+
+        progressPercent.textContent =
+            "100%";
+
+
         progressText.textContent =
             "Processing complete";
 
 
         resizeButton.disabled =
             false;
+
+
+        if (
+            processedImages.length > 0
+        ) {
+
+            downloadAllButton.disabled =
+                false;
+
+        }
 
 
         showResults();
@@ -558,17 +664,31 @@ function resizeImage(
                 new Image();
 
 
+            const objectUrl =
+                URL.createObjectURL(
+                    file
+                );
+
+
             image.onload =
                 function () {
 
+                    URL.revokeObjectURL(
+                        objectUrl
+                    );
+
+
                     let width =
                         image.width;
+
 
                     let height =
                         image.height;
 
 
-                    /* EXACT */
+                    /* =========================
+                       EXACT
+                    ========================= */
 
                     if (
                         mode === "exact"
@@ -583,7 +703,9 @@ function resizeImage(
                     }
 
 
-                    /* WIDTH */
+                    /* =========================
+                       WIDTH
+                    ========================= */
 
                     else if (
                         mode === "width"
@@ -591,6 +713,7 @@ function resizeImage(
 
                         width =
                             targetWidth;
+
 
                         height =
                             Math.round(
@@ -604,7 +727,9 @@ function resizeImage(
                     }
 
 
-                    /* HEIGHT */
+                    /* =========================
+                       HEIGHT
+                    ========================= */
 
                     else if (
                         mode === "height"
@@ -612,6 +737,7 @@ function resizeImage(
 
                         height =
                             targetHeight;
+
 
                         width =
                             Math.round(
@@ -625,7 +751,9 @@ function resizeImage(
                     }
 
 
-                    /* FIT */
+                    /* =========================
+                       FIT
+                    ========================= */
 
                     else if (
                         mode === "fit"
@@ -661,12 +789,14 @@ function resizeImage(
 
                         }
 
+
                         else if (
                             targetWidth
                         ) {
 
                             width =
                                 targetWidth;
+
 
                             height =
                                 Math.round(
@@ -679,12 +809,14 @@ function resizeImage(
 
                         }
 
+
                         else if (
                             targetHeight
                         ) {
 
                             height =
                                 targetHeight;
+
 
                             width =
                                 Math.round(
@@ -700,6 +832,10 @@ function resizeImage(
                     }
 
 
+                    /* =========================
+                       CANVAS
+                    ========================= */
+
                     const canvas =
                         document.createElement(
                             "canvas"
@@ -708,6 +844,7 @@ function resizeImage(
 
                     canvas.width =
                         width;
+
 
                     canvas.height =
                         height;
@@ -722,6 +859,7 @@ function resizeImage(
                     context.imageSmoothingEnabled =
                         true;
 
+
                     context.imageSmoothingQuality =
                         "high";
 
@@ -734,6 +872,10 @@ function resizeImage(
                         height
                     );
 
+
+                    /* =========================
+                       OUTPUT FORMAT
+                    ========================= */
 
                     let outputType =
                         formatInput.value;
@@ -750,7 +892,9 @@ function resizeImage(
                     }
 
 
-                    /* PNG DOES NOT USE QUALITY */
+                    /* =========================
+                       QUALITY
+                    ========================= */
 
                     const quality =
                         outputType ===
@@ -760,6 +904,10 @@ function resizeImage(
                                 qualityInput.value
                             );
 
+
+                    /* =========================
+                       CREATE BLOB
+                    ========================= */
 
                     canvas.toBlob(
                         function (blob) {
@@ -773,6 +921,7 @@ function resizeImage(
                                 );
 
                                 return;
+
                             }
 
 
@@ -781,6 +930,12 @@ function resizeImage(
                                     outputType
                                 );
 
+
+                            /*
+                               IMPORTANT:
+                               Keep original filename
+                               and retain "_resized".
+                            */
 
                             const name =
                                 removeExtension(
@@ -792,13 +947,17 @@ function resizeImage(
 
                             resolve({
 
-                                blob: blob,
+                                blob:
+                                    blob,
 
-                                name: name,
+                                name:
+                                    name,
 
-                                width: width,
+                                width:
+                                    width,
 
-                                height: height
+                                height:
+                                    height
 
                             });
 
@@ -815,6 +974,11 @@ function resizeImage(
             image.onerror =
                 function () {
 
+                    URL.revokeObjectURL(
+                        objectUrl
+                    );
+
+
                     reject(
                         new Error(
                             "Could not load image."
@@ -825,9 +989,7 @@ function resizeImage(
 
 
             image.src =
-                URL.createObjectURL(
-                    file
-                );
+                objectUrl;
 
         }
     );
@@ -844,6 +1006,7 @@ function showResults() {
     resultText.textContent =
         `${processedImages.length} image(s) resized successfully.`;
 
+
     results.style.display =
         "block";
 
@@ -857,73 +1020,298 @@ function showResults() {
 
 
 /* =========================================
-   DOWNLOAD
+   DOWNLOAD ALL AS ZIP
 ========================================= */
 
 downloadAllButton.addEventListener(
     "click",
-    function () {
+    async function () {
 
         if (
             processedImages.length === 0
         ) {
 
             return;
+
         }
 
 
-        processedImages.forEach(
-            (image, index) => {
+        /* =================================
+           CHECK JSZIP
+        ================================= */
 
-                setTimeout(
-                    () => {
+        if (
+            typeof JSZip === "undefined"
+        ) {
 
-                        const url =
-                            URL.createObjectURL(
-                                image.blob
-                            );
+            alert(
+                "The ZIP utility could not be loaded. Please refresh the page and try again."
+            );
 
+            return;
 
-                        const link =
-                            document.createElement(
-                                "a"
-                            );
-
-
-                        link.href =
-                            url;
-
-                        link.download =
-                            image.name;
+        }
 
 
-                        document.body.appendChild(
-                            link
-                        );
+        const originalButtonText =
+            downloadAllButton.textContent;
 
 
-                        link.click();
+        downloadAllButton.disabled =
+            true;
 
-                        link.remove();
+
+        downloadAllButton.textContent =
+            "Preparing ZIP...";
 
 
+        progressSection.style.display =
+            "block";
+
+
+        progressFill.style.width =
+            "0%";
+
+
+        progressPercent.textContent =
+            "0%";
+
+
+        progressText.textContent =
+            "Preparing ZIP file...";
+
+
+        try {
+
+            const zip =
+                new JSZip();
+
+
+            /* =================================
+               ADD IMAGES TO ZIP
+            ================================= */
+
+            for (
+                let i = 0;
+                i < processedImages.length;
+                i++
+            ) {
+
+                const image =
+                    processedImages[i];
+
+
+                /*
+                   Keep the generated filename.
+
+                   Example:
+                   photo_resized.jpg
+                */
+
+                zip.file(
+                    image.name,
+                    image.blob
+                );
+
+
+                const percent =
+                    Math.round(
+                        (
+                            (i + 1) /
+                            processedImages.length
+                        ) *
+                        100
+                    );
+
+
+                progressFill.style.width =
+                    `${percent}%`;
+
+
+                progressPercent.textContent =
+                    `${percent}%`;
+
+
+                progressText.textContent =
+                    `Adding image ${i + 1} of ${processedImages.length} to ZIP...`;
+
+
+                /*
+                   Give the browser a small
+                   opportunity to update the UI
+                   when processing many files.
+                */
+
+                await new Promise(
+                    resolve =>
                         setTimeout(
-                            () => {
-
-                                URL.revokeObjectURL(
-                                    url
-                                );
-
-                            },
-                            1000
-                        );
-
-                    },
-                    index * 250
+                            resolve,
+                            0
+                        )
                 );
 
             }
-        );
+
+
+            /* =================================
+               CREATE ZIP
+            ================================= */
+
+            progressText.textContent =
+                "Creating ZIP file...";
+
+
+            const zipBlob =
+                await zip.generateAsync(
+                    {
+                        type:
+                            "blob",
+
+                        compression:
+                            "DEFLATE",
+
+                        compressionOptions:
+                            {
+                                level:
+                                    6
+                            }
+
+                    },
+
+                    function (metadata) {
+
+                        const percent =
+                            Math.round(
+                                metadata.percent
+                            );
+
+
+                        progressFill.style.width =
+                            `${percent}%`;
+
+
+                        progressPercent.textContent =
+                            `${percent}%`;
+
+
+                        progressText.textContent =
+                            "Creating ZIP file...";
+
+                    }
+                );
+
+
+            /* =================================
+               DOWNLOAD ZIP
+            ================================= */
+
+            const url =
+                URL.createObjectURL(
+                    zipBlob
+                );
+
+
+            const link =
+                document.createElement(
+                    "a"
+                );
+
+
+            link.href =
+                url;
+
+
+            link.download =
+                "KSUC-UTIL-ZIP.zip";
+
+
+            document.body.appendChild(
+                link
+            );
+
+
+            link.click();
+
+
+            link.remove();
+
+
+            /* =================================
+               CLEANUP
+            ================================= */
+
+            setTimeout(
+                function () {
+
+                    URL.revokeObjectURL(
+                        url
+                    );
+
+                },
+                2000
+            );
+
+
+            /* =================================
+               COMPLETE
+            ================================= */
+
+            progressFill.style.width =
+                "100%";
+
+
+            progressPercent.textContent =
+                "100%";
+
+
+            progressText.textContent =
+                "ZIP created successfully";
+
+
+            downloadAllButton.textContent =
+                "✓ ZIP Downloaded";
+
+
+            setTimeout(
+                function () {
+
+                    downloadAllButton.textContent =
+                        originalButtonText;
+
+
+                    downloadAllButton.disabled =
+                        false;
+
+                },
+                2500
+            );
+
+
+        } catch (error) {
+
+            console.error(
+                "ZIP creation error:",
+                error
+            );
+
+
+            alert(
+                "Could not create the ZIP file. Please try again."
+            );
+
+
+            downloadAllButton.textContent =
+                originalButtonText;
+
+
+            downloadAllButton.disabled =
+                false;
+
+
+            progressText.textContent =
+                "ZIP creation failed";
+
+        }
 
     }
 );
@@ -937,7 +1325,9 @@ function formatFileSize(
     bytes
 ) {
 
-    if (bytes === 0) {
+    if (
+        bytes === 0
+    ) {
 
         return "0 Bytes";
 
@@ -975,6 +1365,10 @@ function formatFileSize(
 
 }
 
+
+/* =========================================
+   GET EXTENSION
+========================================= */
 
 function getExtension(
     mimeType
@@ -1014,6 +1408,10 @@ function getExtension(
 
 }
 
+
+/* =========================================
+   REMOVE EXTENSION
+========================================= */
 
 function removeExtension(
     filename

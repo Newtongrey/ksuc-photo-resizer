@@ -1,145 +1,198 @@
-/* =====================================================
+/* =========================================
    KOITALEEL SAMOEI UNIVERSITY COLLEGE
    ICT UTILITIES
    BULK IMAGE RESIZER
-===================================================== */
+========================================= */
 
 
 const MAX_IMAGES = 100;
 
 
-/* DOM ELEMENTS */
+/* =========================================
+   ELEMENTS
+========================================= */
 
-const fileInput = document.getElementById("fileInput");
+const fileInput =
+    document.getElementById("fileInput");
 
-const dropArea = document.getElementById("dropArea");
+const dropArea =
+    document.getElementById("dropArea");
 
-const imageList = document.getElementById("imageList");
+const imageSection =
+    document.getElementById("imageSection");
 
-const imageSection = document.getElementById("imageSection");
+const imageList =
+    document.getElementById("imageList");
 
-const imageCount = document.getElementById("imageCount");
+const imageCount =
+    document.getElementById("imageCount");
 
-const clearButton = document.getElementById("clearButton");
+const clearButton =
+    document.getElementById("clearButton");
 
-const resizeButton = document.getElementById("resizeButton");
+const resizeButton =
+    document.getElementById("resizeButton");
 
-const widthInput = document.getElementById("width");
+const widthInput =
+    document.getElementById("width");
 
-const heightInput = document.getElementById("height");
+const heightInput =
+    document.getElementById("height");
 
-const qualityInput = document.getElementById("quality");
+const qualityInput =
+    document.getElementById("quality");
 
-const formatInput = document.getElementById("format");
+const formatInput =
+    document.getElementById("format");
 
-const keepRatio = document.getElementById("keepRatio");
+const progressSection =
+    document.getElementById("progressSection");
 
-const progressSection = document.getElementById("progressSection");
+const progressFill =
+    document.getElementById("progressFill");
 
-const progressFill = document.getElementById("progressFill");
+const progressText =
+    document.getElementById("progressText");
 
-const progressText = document.getElementById("progressText");
+const progressPercent =
+    document.getElementById("progressPercent");
 
-const progressPercent = document.getElementById("progressPercent");
+const results =
+    document.getElementById("results");
 
-const results = document.getElementById("results");
-
-const resultText = document.getElementById("resultText");
+const resultText =
+    document.getElementById("resultText");
 
 const downloadAllButton =
     document.getElementById("downloadAllButton");
 
 
-/* DATA */
+/* =========================================
+   DATA
+========================================= */
 
 let selectedFiles = [];
 
 let processedImages = [];
 
 
-/* =====================================================
-   FILE SELECTION
-===================================================== */
+/* =========================================
+   FILE INPUT
+========================================= */
+
+fileInput.addEventListener(
+    "change",
+    function () {
+
+        addFiles(
+            Array.from(this.files)
+        );
+
+    }
+);
 
 
-fileInput.addEventListener("change", function () {
+/* =========================================
+   DRAG & DROP
+========================================= */
 
-    handleFiles(Array.from(this.files));
+dropArea.addEventListener(
+    "dragover",
+    function (event) {
 
-});
+        event.preventDefault();
 
+        dropArea.classList.add(
+            "dragover"
+        );
 
-/* DRAG & DROP */
-
-
-dropArea.addEventListener("dragover", function (event) {
-
-    event.preventDefault();
-
-    dropArea.classList.add("dragover");
-
-});
-
-
-dropArea.addEventListener("dragleave", function () {
-
-    dropArea.classList.remove("dragover");
-
-});
+    }
+);
 
 
-dropArea.addEventListener("drop", function (event) {
+dropArea.addEventListener(
+    "dragleave",
+    function () {
 
-    event.preventDefault();
+        dropArea.classList.remove(
+            "dragover"
+        );
 
-    dropArea.classList.remove("dragover");
-
-    const files = Array.from(event.dataTransfer.files);
-
-    handleFiles(files);
-
-});
-
-
-/* =====================================================
-   HANDLE FILES
-===================================================== */
+    }
+);
 
 
-function handleFiles(files) {
+dropArea.addEventListener(
+    "drop",
+    function (event) {
 
-    const imageFiles = files.filter(file =>
-        file.type.startsWith("image/")
-    );
+        event.preventDefault();
+
+        dropArea.classList.remove(
+            "dragover"
+        );
+
+        addFiles(
+            Array.from(
+                event.dataTransfer.files
+            )
+        );
+
+    }
+);
 
 
-    if (imageFiles.length === 0) {
+/* =========================================
+   ADD FILES
+========================================= */
 
-        alert("Please select valid image files.");
+function addFiles(files) {
+
+    const validFiles =
+        files.filter(
+            file =>
+                file.type === "image/jpeg" ||
+                file.type === "image/png" ||
+                file.type === "image/webp"
+        );
+
+
+    if (validFiles.length === 0) {
+
+        alert(
+            "Please select JPG, PNG or WebP images."
+        );
 
         return;
     }
 
 
-    if (
-        selectedFiles.length + imageFiles.length
-        > MAX_IMAGES
-    ) {
+    const available =
+        MAX_IMAGES -
+        selectedFiles.length;
 
-        const remaining =
-            MAX_IMAGES - selectedFiles.length;
+
+    if (available <= 0) {
 
         alert(
-            `You can add only ${remaining} more image(s). Maximum is ${MAX_IMAGES} images.`
+            "You have reached the 100-image limit."
         );
 
-        imageFiles.splice(remaining);
-
+        return;
     }
 
 
+    const filesToAdd =
+        validFiles.slice(
+            0,
+            available
+        );
+
+
     selectedFiles =
-        selectedFiles.concat(imageFiles);
+        selectedFiles.concat(
+            filesToAdd
+        );
 
 
     updateImageList();
@@ -147,78 +200,88 @@ function handleFiles(files) {
 }
 
 
-/* =====================================================
-   UPDATE IMAGE LIST
-===================================================== */
-
+/* =========================================
+   UPDATE LIST
+========================================= */
 
 function updateImageList() {
 
     imageList.innerHTML = "";
 
 
-    selectedFiles.forEach((file, index) => {
+    selectedFiles.forEach(
+        (file, index) => {
 
-        const item =
-            document.createElement("div");
+            const item =
+                document.createElement("div");
 
-        item.className = "image-item";
-
-
-        const image =
-            document.createElement("img");
-
-        image.className = "image-preview";
-
-        image.src = URL.createObjectURL(file);
+            item.className =
+                "image-item";
 
 
-        const info =
-            document.createElement("div");
+            const preview =
+                document.createElement("img");
 
-        info.className = "image-info";
+            preview.className =
+                "image-preview";
 
-
-        const name =
-            document.createElement("div");
-
-        name.className = "image-name";
-
-        name.textContent = file.name;
+            preview.src =
+                URL.createObjectURL(file);
 
 
-        const size =
-            document.createElement("div");
+            const info =
+                document.createElement("div");
 
-        size.className = "image-size";
-
-        size.textContent =
-            formatFileSize(file.size);
+            info.className =
+                "image-info";
 
 
-        info.appendChild(name);
+            const name =
+                document.createElement("div");
 
-        info.appendChild(size);
+            name.className =
+                "image-name";
 
-
-        const status =
-            document.createElement("span");
-
-        status.className = "image-status";
-
-        status.textContent = "Ready";
+            name.textContent =
+                file.name;
 
 
-        item.appendChild(image);
+            const size =
+                document.createElement("div");
 
-        item.appendChild(info);
+            size.className =
+                "image-size";
 
-        item.appendChild(status);
+            size.textContent =
+                formatFileSize(file.size);
 
 
-        imageList.appendChild(item);
+            const status =
+                document.createElement("span");
 
-    });
+            status.className =
+                "image-status";
+
+            status.textContent =
+                "READY";
+
+
+            info.appendChild(name);
+
+            info.appendChild(size);
+
+
+            item.appendChild(preview);
+
+            item.appendChild(info);
+
+            item.appendChild(status);
+
+
+            imageList.appendChild(item);
+
+        }
+    );
 
 
     imageCount.textContent =
@@ -227,169 +290,156 @@ function updateImageList() {
 
     if (selectedFiles.length > 0) {
 
-        imageSection.style.display = "block";
+        imageSection.style.display =
+            "block";
 
-        resizeButton.disabled = false;
+        resizeButton.disabled =
+            false;
 
     } else {
 
-        imageSection.style.display = "none";
+        imageSection.style.display =
+            "none";
 
-        resizeButton.disabled = true;
+        resizeButton.disabled =
+            true;
 
     }
 
 }
 
 
-/* =====================================================
-   CLEAR ALL
-===================================================== */
+/* =========================================
+   CLEAR
+========================================= */
 
+clearButton.addEventListener(
+    "click",
+    function () {
 
-clearButton.addEventListener("click", function () {
+        selectedFiles = [];
 
-    selectedFiles = [];
+        processedImages = [];
 
-    processedImages = [];
+        fileInput.value = "";
 
-    fileInput.value = "";
+        imageList.innerHTML = "";
 
-    updateImageList();
+        imageSection.style.display =
+            "none";
 
-    results.style.display = "none";
+        resizeButton.disabled =
+            true;
 
-    progressSection.style.display = "none";
+        progressSection.style.display =
+            "none";
 
-});
-
-
-/* =====================================================
-   KEEP ASPECT RATIO
-===================================================== */
-
-
-let originalWidth = null;
-
-let originalHeight = null;
-
-
-widthInput.addEventListener("input", function () {
-
-    if (
-        keepRatio.checked &&
-        originalWidth &&
-        originalHeight &&
-        this.value
-    ) {
-
-        const width =
-            parseInt(this.value);
-
-        const height =
-            Math.round(
-                width *
-                originalHeight /
-                originalWidth
-            );
-
-        heightInput.value = height;
+        results.style.display =
+            "none";
 
     }
-
-});
-
-
-heightInput.addEventListener("input", function () {
-
-    if (
-        keepRatio.checked &&
-        originalWidth &&
-        originalHeight &&
-        this.value
-    ) {
-
-        const height =
-            parseInt(this.value);
-
-        const width =
-            Math.round(
-                height *
-                originalWidth /
-                originalHeight
-            );
-
-        widthInput.value = width;
-
-    }
-
-});
-
-
-/* Load first image dimensions */
-
-
-function loadFirstImageDimensions() {
-
-    if (selectedFiles.length === 0) {
-
-        return;
-    }
-
-
-    const image =
-        new Image();
-
-
-    image.onload = function () {
-
-        originalWidth = image.width;
-
-        originalHeight = image.height;
-
-    };
-
-
-    image.src =
-        URL.createObjectURL(
-            selectedFiles[0]
-        );
-
-}
-
-
-fileInput.addEventListener(
-    "change",
-    loadFirstImageDimensions
 );
 
 
-/* =====================================================
-   RESIZE IMAGES
-===================================================== */
+/* =========================================
+   RESIZE MODE
+========================================= */
 
+function getResizeMode() {
+
+    const selected =
+        document.querySelector(
+            'input[name="resizeMode"]:checked'
+        );
+
+    return selected
+        ? selected.value
+        : "fit";
+
+}
+
+
+/* =========================================
+   RESIZE
+========================================= */
 
 resizeButton.addEventListener(
     "click",
     async function () {
 
-        if (selectedFiles.length === 0) {
+        if (
+            selectedFiles.length === 0
+        ) {
 
             return;
         }
 
 
-        let targetWidth =
-            parseInt(widthInput.value);
-
-        let targetHeight =
-            parseInt(heightInput.value);
+        const mode =
+            getResizeMode();
 
 
-        if (!targetWidth && !targetHeight) {
+        let width =
+            parseInt(
+                widthInput.value
+            );
+
+
+        let height =
+            parseInt(
+                heightInput.value
+            );
+
+
+        /* VALIDATION */
+
+        if (
+            mode === "fit" &&
+            !width &&
+            !height
+        ) {
 
             alert(
-                "Please enter a width or height."
+                "Enter a width or height."
+            );
+
+            return;
+        }
+
+
+        if (
+            mode === "exact" &&
+            (!width || !height)
+        ) {
+
+            alert(
+                "Enter both width and height for exact dimensions."
+            );
+
+            return;
+        }
+
+
+        if (
+            mode === "width" &&
+            !width
+        ) {
+
+            alert(
+                "Enter a width."
+            );
+
+            return;
+        }
+
+
+        if (
+            mode === "height" &&
+            !height
+        ) {
+
+            alert(
+                "Enter a height."
             );
 
             return;
@@ -399,14 +449,24 @@ resizeButton.addEventListener(
         processedImages = [];
 
 
-        progressSection.style.display =
-            "block";
+        resizeButton.disabled =
+            true;
+
 
         results.style.display =
             "none";
 
 
-        resizeButton.disabled = true;
+        progressSection.style.display =
+            "block";
+
+
+        progressFill.style.width =
+            "0%";
+
+
+        progressPercent.textContent =
+            "0%";
 
 
         for (
@@ -424,33 +484,54 @@ resizeButton.addEventListener(
                 const result =
                     await resizeImage(
                         file,
-                        targetWidth,
-                        targetHeight
+                        width,
+                        height,
+                        mode
                     );
 
 
-                processedImages.push(result);
-
-
-                updateProgress(
-                    i + 1,
-                    selectedFiles.length
+                processedImages.push(
+                    result
                 );
 
 
             } catch (error) {
 
                 console.error(
-                    "Image processing error:",
                     error
                 );
 
             }
 
+
+            const percent =
+                Math.round(
+                    ((i + 1) /
+                    selectedFiles.length) *
+                    100
+                );
+
+
+            progressFill.style.width =
+                `${percent}%`;
+
+
+            progressPercent.textContent =
+                `${percent}%`;
+
+
+            progressText.textContent =
+                `Processing ${i + 1} of ${selectedFiles.length}...`;
+
         }
 
 
-        resizeButton.disabled = false;
+        progressText.textContent =
+            "Processing complete";
+
+
+        resizeButton.disabled =
+            false;
 
 
         showResults();
@@ -459,15 +540,15 @@ resizeButton.addEventListener(
 );
 
 
-/* =====================================================
-   RESIZE SINGLE IMAGE
-===================================================== */
-
+/* =========================================
+   RESIZE IMAGE
+========================================= */
 
 function resizeImage(
     file,
     targetWidth,
-    targetHeight
+    targetHeight,
+    mode
 ) {
 
     return new Promise(
@@ -481,57 +562,76 @@ function resizeImage(
                 function () {
 
                     let width =
-                        targetWidth;
+                        image.width;
 
                     let height =
-                        targetHeight;
+                        image.height;
 
 
-                    /* KEEP ASPECT RATIO */
+                    /* EXACT */
 
                     if (
-                        keepRatio.checked
+                        mode === "exact"
+                    ) {
+
+                        width =
+                            targetWidth;
+
+                        height =
+                            targetHeight;
+
+                    }
+
+
+                    /* WIDTH */
+
+                    else if (
+                        mode === "width"
+                    ) {
+
+                        width =
+                            targetWidth;
+
+                        height =
+                            Math.round(
+                                image.height *
+                                (
+                                    targetWidth /
+                                    image.width
+                                )
+                            );
+
+                    }
+
+
+                    /* HEIGHT */
+
+                    else if (
+                        mode === "height"
+                    ) {
+
+                        height =
+                            targetHeight;
+
+                        width =
+                            Math.round(
+                                image.width *
+                                (
+                                    targetHeight /
+                                    image.height
+                                )
+                            );
+
+                    }
+
+
+                    /* FIT */
+
+                    else if (
+                        mode === "fit"
                     ) {
 
                         if (
-                            targetWidth &&
-                            !targetHeight
-                        ) {
-
-                            width =
-                                targetWidth;
-
-                            height =
-                                Math.round(
-                                    image.height *
-                                    (
-                                        width /
-                                        image.width
-                                    )
-                                );
-
-                        }
-
-                        else if (
-                            targetHeight &&
-                            !targetWidth
-                        ) {
-
-                            height =
-                                targetHeight;
-
-                            width =
-                                Math.round(
-                                    image.width *
-                                    (
-                                        height /
-                                        image.height
-                                    )
-                                );
-
-                        }
-
-                        else if (
                             targetWidth &&
                             targetHeight
                         ) {
@@ -561,17 +661,41 @@ function resizeImage(
 
                         }
 
-                    }
+                        else if (
+                            targetWidth
+                        ) {
 
-                    else {
+                            width =
+                                targetWidth;
 
-                        width =
-                            targetWidth ||
-                            image.width;
+                            height =
+                                Math.round(
+                                    image.height *
+                                    (
+                                        targetWidth /
+                                        image.width
+                                    )
+                                );
 
-                        height =
-                            targetHeight ||
-                            image.height;
+                        }
+
+                        else if (
+                            targetHeight
+                        ) {
+
+                            height =
+                                targetHeight;
+
+                            width =
+                                Math.round(
+                                    image.width *
+                                    (
+                                        targetHeight /
+                                        image.height
+                                    )
+                                );
+
+                        }
 
                     }
 
@@ -589,13 +713,20 @@ function resizeImage(
                         height;
 
 
-                    const ctx =
+                    const context =
                         canvas.getContext(
                             "2d"
                         );
 
 
-                    ctx.drawImage(
+                    context.imageSmoothingEnabled =
+                        true;
+
+                    context.imageSmoothingQuality =
+                        "high";
+
+
+                    context.drawImage(
                         image,
                         0,
                         0,
@@ -619,6 +750,17 @@ function resizeImage(
                     }
 
 
+                    /* PNG DOES NOT USE QUALITY */
+
+                    const quality =
+                        outputType ===
+                        "image/png"
+                            ? undefined
+                            : parseFloat(
+                                qualityInput.value
+                            );
+
+
                     canvas.toBlob(
                         function (blob) {
 
@@ -626,7 +768,7 @@ function resizeImage(
 
                                 reject(
                                     new Error(
-                                        "Could not create image."
+                                        "Unable to process image."
                                     )
                                 );
 
@@ -640,7 +782,7 @@ function resizeImage(
                                 );
 
 
-                            const newName =
+                            const name =
                                 removeExtension(
                                     file.name
                                 ) +
@@ -652,7 +794,11 @@ function resizeImage(
 
                                 blob: blob,
 
-                                name: newName
+                                name: name,
+
+                                width: width,
+
+                                height: height
 
                             });
 
@@ -660,9 +806,7 @@ function resizeImage(
 
                         outputType,
 
-                        parseFloat(
-                            qualityInput.value
-                        )
+                        quality
                     );
 
                 };
@@ -673,7 +817,7 @@ function resizeImage(
 
                     reject(
                         new Error(
-                            "Unable to load image."
+                            "Could not load image."
                         )
                     );
 
@@ -681,7 +825,9 @@ function resizeImage(
 
 
             image.src =
-                URL.createObjectURL(file);
+                URL.createObjectURL(
+                    file
+                );
 
         }
     );
@@ -689,60 +835,14 @@ function resizeImage(
 }
 
 
-/* =====================================================
-   PROGRESS
-===================================================== */
-
-
-function updateProgress(
-    current,
-    total
-) {
-
-    const percent =
-        Math.round(
-            current /
-            total *
-            100
-        );
-
-
-    progressFill.style.width =
-        percent + "%";
-
-
-    progressPercent.textContent =
-        percent + "%";
-
-
-    progressText.textContent =
-        `Processing ${current} of ${total}...`;
-
-}
-
-
-/* =====================================================
+/* =========================================
    RESULTS
-===================================================== */
-
+========================================= */
 
 function showResults() {
 
-    progressText.textContent =
-        "Processing complete";
-
-
-    progressFill.style.width =
-        "100%";
-
-
-    progressPercent.textContent =
-        "100%";
-
-
     resultText.textContent =
-        `${processedImages.length} image(s) successfully processed.`;
-
+        `${processedImages.length} image(s) resized successfully.`;
 
     results.style.display =
         "block";
@@ -756,10 +856,9 @@ function showResults() {
 }
 
 
-/* =====================================================
-   DOWNLOAD ALL
-===================================================== */
-
+/* =========================================
+   DOWNLOAD
+========================================= */
 
 downloadAllButton.addEventListener(
     "click",
@@ -777,11 +876,46 @@ downloadAllButton.addEventListener(
             (image, index) => {
 
                 setTimeout(
-                    function () {
+                    () => {
 
-                        downloadFile(
-                            image.blob,
-                            image.name
+                        const url =
+                            URL.createObjectURL(
+                                image.blob
+                            );
+
+
+                        const link =
+                            document.createElement(
+                                "a"
+                            );
+
+
+                        link.href =
+                            url;
+
+                        link.download =
+                            image.name;
+
+
+                        document.body.appendChild(
+                            link
+                        );
+
+
+                        link.click();
+
+                        link.remove();
+
+
+                        setTimeout(
+                            () => {
+
+                                URL.revokeObjectURL(
+                                    url
+                                );
+
+                            },
+                            1000
                         );
 
                     },
@@ -795,54 +929,13 @@ downloadAllButton.addEventListener(
 );
 
 
-/* =====================================================
-   DOWNLOAD FILE
-===================================================== */
-
-
-function downloadFile(
-    blob,
-    filename
-) {
-
-    const url =
-        URL.createObjectURL(blob);
-
-
-    const link =
-        document.createElement("a");
-
-
-    link.href = url;
-
-    link.download = filename;
-
-
-    document.body.appendChild(link);
-
-    link.click();
-
-    link.remove();
-
-
-    setTimeout(
-        function () {
-
-            URL.revokeObjectURL(url);
-
-        },
-        1000
-    );
-
-}
-
-
-/* =====================================================
+/* =========================================
    HELPERS
-===================================================== */
+========================================= */
 
-
-function formatFileSize(bytes) {
+function formatFileSize(
+    bytes
+) {
 
     if (bytes === 0) {
 
@@ -887,21 +980,37 @@ function getExtension(
     mimeType
 ) {
 
-    const extensions = {
+    if (
+        mimeType ===
+        "image/jpeg"
+    ) {
 
-        "image/jpeg": "jpg",
+        return "jpg";
 
-        "image/png": "png",
-
-        "image/webp": "webp"
-
-    };
+    }
 
 
-    return (
-        extensions[mimeType] ||
-        "jpg"
-    );
+    if (
+        mimeType ===
+        "image/png"
+    ) {
+
+        return "png";
+
+    }
+
+
+    if (
+        mimeType ===
+        "image/webp"
+    ) {
+
+        return "webp";
+
+    }
+
+
+    return "jpg";
 
 }
 

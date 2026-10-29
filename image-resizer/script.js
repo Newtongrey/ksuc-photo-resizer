@@ -878,7 +878,7 @@ function resizeImage(
                     ========================= */
 
                     let outputType =
-                        formatInput.value;
+                        formatInput ? formatInput.value : "original";
 
 
                     if (

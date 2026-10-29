@@ -1,40 +1,17 @@
-# Photo Resizer & Compressor
+# Koitaleel Samoei University College — ICT Utilities
 
-A dependency-free, client-side photo utility designed for bulk preparation of images.
+Static utility portal hosted on Vercel.
 
-## Features
+- `/` — ICT Utilities landing page
+- `/image-resizer/` — existing bulk image resizer (preserved)
+- `/pdf-tools/` — browser-based PDF and document tools
 
-- Up to 50 images per batch
-- Output: 130 × 150 px
-- Maximum output size: 20 KB
-- Original filename retained (extension becomes `.jpg` because output is JPEG)
-- No padding
-- No cropping
-- No server upload
-- Local browser processing
-- Individual downloads
-- Download all as a ZIP
-- Responsive interface
-- Vercel/GitHub ready
+## Privacy
+File operations are performed in the user's browser wherever supported. Third-party libraries load from CDN, but the selected files are not sent to those CDNs or a server by this code.
 
-## Run locally
+## PDF conversion limitations
+- PDF to Word extracts selectable text to a DOCX and does not preserve exact layout; scanned PDFs need OCR.
+- Word to PDF converts DOCX content to HTML and renders that HTML to PDF in the browser; complex formatting may differ.
+- PDF merge, split, image-to-PDF and PDF-to-PNG use browser libraries.
 
-Open `index.html` in a modern browser.
-
-## Deploy to GitHub + Vercel
-
-1. Create a new GitHub repository.
-2. Upload `index.html`, `styles.css`, `app.js`, and `README.md`.
-3. In Vercel, import the GitHub repository.
-4. Framework preset: **Other**.
-5. Build command: leave empty.
-6. Output directory: leave empty.
-7. Deploy.
-
-No environment variables or server-side services are required.
-
-## Important behavior
-
-The app directly resizes the source image to exactly 130 × 150 pixels. It does not crop or add padding. If the source image has a different aspect ratio, direct resizing can introduce some geometric distortion because exact dimensions are required.
-
-The compression step searches for the highest JPEG quality that fits within 20 KB.
+No server, database or build step is required. Deploy as a static site on Vercel.
